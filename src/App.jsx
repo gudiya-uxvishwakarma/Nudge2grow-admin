@@ -1,16 +1,30 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './components/Admin/Login'
 import Dashboard from './components/Admin/Dashboard'
-import AdminIntroScreen from './components/Admin/AdminIntroScreen'
-import AdminPersonalSetupScreen from './components/Admin/AdminPersonalSetupScreen'
-import AdminHome from './components/Admin/AdminHome'
-import AdminSubscriptionPlan from './components/Admin/AdminSubscriptionPlan'
-// import AdminLearningSummary from './components/Admin/AdminLearningSummary'
-import AdminQuiz from './components/Admin/AdminQuiz'
-// import AdminMilestones from './components/Admin/AdminMilestones'
 import AdminLearningSubjects from './components/Admin/AdminLearningSubjects'
-import AdminGrade from './components/Admin/AdminGrade'
-import AdminEducationalBoard from './components/Admin/AdminEducationalBoard'
+import AdminSubscriptionPlan from './components/Admin/AdminSubscriptionPlan'
+import AdminPlans from './components/Admin/Subscription/AdminPlans'
+import AdminTestimonials from './components/Admin/Subscription/AdminTestimonials'
+import AdminFAQ from './components/Admin/Subscription/AdminFAQ'
+
+// User Management
+
+import AdminGrade from './components/UserManagement/AdminGrade'
+import AdminEducationalBoard from './components/UserManagement/AdminEducationalBoard'
+import AdminIntroSlides from './components/UserManagement/AdminIntroSlides'
+import AdminChildDetails from './components/UserManagement/AdminChildDetails'
+import AdminSelectAvatar from './components/UserManagement/AdminSelectAvatar'
+import AdminCustomizeLearning from './components/UserManagement/AdminCustomizeLearning'
+
+// Customize Learning Management
+import AllTopics from './components/UserManagement/CustomizeLearning/AllTopics'
+import CoreArea from './components/UserManagement/CustomizeLearning/CoreArea'
+import BeyondSchool from './components/UserManagement/CustomizeLearning/BeyondSchool'
+
+// Home Management
+import AdminDidYouKnow from './components/HomeManagement/AdminDidYouKnow'
+import AdminTodaysRiddle from './components/HomeManagement/AdminTodaysRiddle'
+import AdminParentingInsight from './components/HomeManagement/AdminParentingInsight'
 
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
@@ -23,17 +37,35 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}>
-          <Route index element={<Navigate to="home" replace />} />
-          <Route path="IntroScreen" element={<AdminIntroScreen />} />
-          <Route path="PersonalSetupScreen" element={<AdminPersonalSetupScreen />} />
-          <Route path="home" element={<AdminHome />} />
+          <Route index element={<Navigate to="grade" replace />} />
+
+          {/* Main Pages */}
           <Route path="Subscription-Plan" element={<AdminSubscriptionPlan />} />
-          {/* <Route path="Learning-Summary" element={<AdminLearningSummary />} /> */}
-          <Route path="Quiz" element={<AdminQuiz />} />
-          {/* <Route path="Milestones" element={<AdminMilestones />} /> */}
+          <Route path="subscription/plans" element={<AdminPlans />} />
+          <Route path="subscription/testimonials" element={<AdminTestimonials />} />
+          <Route path="subscription/faq" element={<AdminFAQ />} />
           <Route path="Learning-Subjects" element={<AdminLearningSubjects />} />
+
+          {/* User Management */}
           <Route path="grade" element={<AdminGrade />} />
           <Route path="educational-board" element={<AdminEducationalBoard />} />
+          <Route path="intro-slides" element={<AdminIntroSlides />} />
+          <Route path="child-details" element={<AdminChildDetails />} />
+          <Route path="select-avatar" element={<AdminSelectAvatar />} />
+          <Route path="customize-learning" element={<AdminCustomizeLearning />} />
+
+          {/* Customize Learning Management */}
+          <Route path="all-topics" element={<AllTopics />} />
+          <Route path="core-area" element={<CoreArea />} />
+          <Route path="beyond-school" element={<BeyondSchool />} />
+
+          {/* Home Management */}
+          <Route path="did-you-know" element={<AdminDidYouKnow />} />
+          <Route path="todays-riddle" element={<AdminTodaysRiddle />} />
+          <Route path="parenting-insight" element={<AdminParentingInsight />} />
+
+          {/* Catch-all — redirect unknown admin paths */}
+          <Route path="*" element={<Navigate to="/admin/grade" replace />} />
         </Route>
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>

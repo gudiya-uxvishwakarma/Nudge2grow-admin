@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "/api";
 
 const client = axios.create({ baseURL: BASE_URL });
 
@@ -32,18 +32,18 @@ export const api = {
 
   // ── Intro Slides ────────────────────────────────────────────────────────────
   introSlides: {
-    getAll: () => get("/intro-slides"),
+    getAll: () => get("/intro-slides", { admin: "true" }),
     create: (body) => post("/intro-slides", body),
     update: (id, b) => put(`/intro-slides/${id}`, b),
     remove: (id) => del(`/intro-slides/${id}`),
   },
 
-  // ── Personal Setup ──────────────────────────────────────────────────────────
-  personalSetup: {
-    getAll: () => get("/personal-setup"),
-    create: (body)  => post("/personal-setup", body),
-    update: (id, b) => put(`/personal-setup/${id}`, b),
-    remove: (id) => del(`/personal-setup/${id}`),
+  // ── Child Details ────────────────────────────────────────────────────────────
+  childDetails: {
+    getAll: ()       => get("/child-details"),
+    create: (body)   => post("/child-details", body),
+    update: (id, b)  => put(`/child-details/${id}`, b),
+    remove: (id)     => del(`/child-details/${id}`),
   },
 
   // ── Learning Subjects ───────────────────────────────────────────────────────
@@ -99,6 +99,69 @@ export const api = {
     remove:  (id)     => del(`/learning-summary/${id}`),
   },
 
+  // ── Users ───────────────────────────────────────────────────────────────────
+  users: {
+    getAll:      ()       => get("/users"),
+    toggleBlock: (id)     => patch(`/users/${id}/toggle-block`, {}),
+    remove:      (id)     => del(`/users/${id}`),
+  },
+
+  // ── Grades ───────────────────────────────────────────────────────────────────
+  grades: {
+    getAll: ()       => get("/grade"),
+    create: (body)   => post("/grade", body),
+    update: (id, b)  => put(`/grade/${id}`, b),
+    remove: (id)     => del(`/grade/${id}`),
+  },
+
+  // ── Educational Board ────────────────────────────────────────────────────────
+  educationalBoards: {
+    getAll: ()       => get("/educational-board"),
+    create: (body)   => post("/educational-board", body),
+    update: (id, b)  => put(`/educational-board/${id}`, b),
+    remove: (id)     => del(`/educational-board/${id}`),
+  },
+
+  // ── Avatars ──────────────────────────────────────────────────────────────────
+  avatars: {
+    getAll: ()       => get("/avatars", { admin: "true" }),
+    create: (body)   => post("/avatars", body),
+    update: (id, b)  => put(`/avatars/${id}`, b),
+    remove: (id)     => del(`/avatars/${id}`),
+  },
+
+  // ── Customize Learning ───────────────────────────────────────────────────────
+  customizeLearning: {
+    getAll: ()       => get("/customize-learning"),
+    create: (body)   => post("/customize-learning", body),
+    update: (id, b)  => put(`/customize-learning/${id}`, b),
+    remove: (id)     => del(`/customize-learning/${id}`),
+  },
+
+  // ── Did You Know ─────────────────────────────────────────────────────────────
+  didYouKnow: {
+    getAll: ()       => get("/did-you-know"),
+    create: (body)   => post("/did-you-know", body),
+    update: (id, b)  => put(`/did-you-know/${id}`, b),
+    remove: (id)     => del(`/did-you-know/${id}`),
+  },
+
+  // ── Today's Riddle ───────────────────────────────────────────────────────────
+  riddles: {
+    getAll: ()       => get("/riddles"),
+    create: (body)   => post("/riddles", body),
+    update: (id, b)  => put(`/riddles/${id}`, b),
+    remove: (id)     => del(`/riddles/${id}`),
+  },
+
+  // ── Parenting Insights ───────────────────────────────────────────────────────
+  parentingInsights: {
+    getAll: ()       => get("/parenting-insights"),
+    create: (body)   => post("/parenting-insights", body),
+    update: (id, b)  => put(`/parenting-insights/${id}`, b),
+    remove: (id)     => del(`/parenting-insights/${id}`),
+  },
+
   // ── Subscription ────────────────────────────────────────────────────────────
   plans: {
     getAll: () => get("/subscription/plans"),
@@ -111,5 +174,13 @@ export const api = {
     create: (body) => post("/subscription/testimonials", body),
     update: (id, b) => put(`/subscription/testimonials/${id}`, b),
     remove: (id) => del(`/subscription/testimonials/${id}`),
+  },
+
+  // ── FAQs ─────────────────────────────────────────────────────────────────────
+  faqs: {
+    getAll: () => get("/subscription/faqs"),
+    create: (body) => post("/subscription/faqs", body),
+    update: (id, b) => put(`/subscription/faqs/${id}`, b),
+    remove: (id) => del(`/subscription/faqs/${id}`),
   },
 };

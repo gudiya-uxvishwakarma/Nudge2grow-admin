@@ -19,27 +19,8 @@ const AdminPanel = () => {
   const location = useLocation();
 
   const navigation = [
-    {
-      id: "IntroScreen",
-      name: "IntroScreen",
-      icon: <ImageIcon size={20} />,
-      path: "/admin/IntroScreen",
-    },
    
-
-    {
-      id: "PersonalSetupScreen",
-      name: "PersonalSetupScreen",
-      icon: <UserPlus size={20} />,
-      path: "/admin/PersonalSetupScreen",
-    },
-    {
-      id: "Home",
-      name: "home",
-      icon: <Eye size={20} />,
-      path: "/admin/home",
-    },
-
+  
     {
       id: "Subscription-Plan",
       name: "Subscription",
@@ -52,12 +33,12 @@ const AdminPanel = () => {
     //   icon: <CardSim size={20} />,
     //   path: "/admin/Learning-Summary",
     // },
-    {
-      id: "Quiz",
-      name: "Quiz",
-      icon: <Beaker size={20} />,
-      path: "/admin/Quiz",
-    },
+    // {
+    //   id: "Quiz",
+    //   name: "Quiz",
+    //   icon: <Beaker size={20} />,
+    //   path: "/admin/Quiz",
+    // },
     // {
     //   id: "Milestones",
     //   name: "Milestones",
