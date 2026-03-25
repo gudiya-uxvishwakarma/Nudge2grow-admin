@@ -7,6 +7,8 @@ import AdminPlans from './components/Admin/Subscription/AdminPlans'
 import AdminTestimonials from './components/Admin/Subscription/AdminTestimonials'
 import AdminFAQ from './components/Admin/Subscription/AdminFAQ'
 
+
+
 // User Management
 
 import AdminGrade from './components/UserManagement/AdminGrade'
@@ -15,6 +17,7 @@ import AdminIntroSlides from './components/UserManagement/AdminIntroSlides'
 import AdminChildDetails from './components/UserManagement/AdminChildDetails'
 import AdminSelectAvatar from './components/UserManagement/AdminSelectAvatar'
 import AdminCustomizeLearning from './components/UserManagement/AdminCustomizeLearning'
+import AdminFaithBackground from './components/UserManagement/AdminFaithBackground'
 
 // Customize Learning Management
 import AllTopics from './components/UserManagement/CustomizeLearning/AllTopics'
@@ -53,6 +56,7 @@ function App() {
           <Route path="child-details" element={<AdminChildDetails />} />
           <Route path="select-avatar" element={<AdminSelectAvatar />} />
           <Route path="customize-learning" element={<AdminCustomizeLearning />} />
+          <Route path="faith-background" element={<AdminFaithBackground />} />
 
           {/* Customize Learning Management */}
           <Route path="all-topics" element={<AllTopics />} />

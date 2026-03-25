@@ -3,16 +3,14 @@ import { MdAdd, MdEdit, MdDelete, MdClose, MdSave, MdAccountCircle } from "react
 import { api } from "../../api";
 
 const Modal = ({ entry, onSave, onClose, saving }) => {
-  const [form, setForm] = useState(entry ? { ...entry } : { name: "", image: "", isActive: true });
+  const [form, setForm] = useState(entry ? { ...entry } : { image: "" });
 
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
     const canvas = document.createElement("canvas");
     const img = new Image();
     const url = URL.createObjectURL(file);
-
     img.onload = () => {
       const MAX = 400;
       let { width, height } = img;
@@ -24,18 +22,15 @@ const Modal = ({ entry, onSave, onClose, saving }) => {
       canvas.width = width;
       canvas.height = height;
       canvas.getContext("2d").drawImage(img, 0, 0, width, height);
-      const compressed = canvas.toDataURL("image/jpeg", 0.7);
-      setForm(p => ({ ...p, image: compressed }));
+      setForm(p => ({ ...p, image: canvas.toDataURL("image/jpeg", 0.7) }));
       URL.revokeObjectURL(url);
     };
     img.src = url;
   };
 
-  const valid = form.name.trim() && form.image;
-
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4">
-      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden">
+      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden">
         <div className="bg-[#45a578] px-8 py-6 flex justify-between items-center">
           <h2 className="text-2xl font-bold text-white flex items-center gap-2">
             {entry ? <><MdEdit /> Edit Avatar</> : <><MdAdd /> Add Avatar</>}
@@ -43,41 +38,33 @@ const Modal = ({ entry, onSave, onClose, saving }) => {
           <button onClick={onClose}><MdClose className="text-white text-2xl" /></button>
         </div>
 
-        <div className="px-8 py-6 space-y-5">
-          <div>
-            <label className="block text-base font-bold text-gray-700 mb-2">Avatar Name *</label>
-            <input
-              className="w-full border-2 border-gray-200 rounded-xl px-5 py-4 text-base focus:outline-none focus:border-[#45a578] transition"
-              value={form.name}
-              onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
-              placeholder="e.g. Lion, Tiger..."
-            />
-          </div>
-
-          <div>
-            <label className="block text-base font-bold text-gray-700 mb-2">Avatar Image *</label>
-            <input type="file" accept="image/*" onChange={handleImage}
-              className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-base" />
-            {form.image && (
-              <div className="mt-3 flex items-center gap-3">
-                <img src={form.image} className="w-24 h-24 rounded-xl object-cover" alt="preview" />
-                <button type="button" onClick={() => setForm(p => ({ ...p, image: "" }))}
-                  className="text-sm text-red-500 font-semibold">Remove</button>
-              </div>
-            )}
-          </div>
-
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" checked={form.isActive} className="w-5 h-5 accent-[#45a578]"
-              onChange={e => setForm(p => ({ ...p, isActive: e.target.checked }))} />
-            <span className="text-base font-semibold text-gray-700">Active</span>
+        <div className="px-8 py-6">
+          <label className="flex flex-col items-center gap-4 cursor-pointer group">
+            <div className={`w-36 h-36 rounded-2xl border-2 border-dashed flex items-center justify-center overflow-hidden transition
+              ${form.image ? "border-[#45a578]" : "border-gray-300 group-hover:border-[#45a578]"}`}>
+              {form.image ? (
+                <img src={form.image} className="w-full h-full object-cover" alt="preview" />
+              ) : (
+                <MdAccountCircle className="text-gray-300 text-6xl group-hover:text-[#45a578] transition" />
+              )}
+            </div>
+            <span className="text-sm font-semibold text-gray-500 group-hover:text-[#45a578] transition">
+              {form.image ? "Change Image" : "Select Image"}
+            </span>
+            <input type="file" accept="image/*" className="hidden" onChange={handleImage} />
           </label>
+          {form.image && (
+            <button type="button" onClick={() => setForm(p => ({ ...p, image: "" }))}
+              className="mt-3 w-full text-sm text-red-400 hover:text-red-600 font-semibold text-center">
+              Remove
+            </button>
+          )}
         </div>
 
         <div className="px-8 py-5 bg-gray-50 flex justify-end gap-4">
           <button onClick={onClose} className="px-6 py-3 text-base border-2 border-gray-200 rounded-xl font-semibold text-gray-600 hover:bg-gray-100 transition">Cancel</button>
-          <button onClick={() => valid && onSave(form)} disabled={!valid || saving}
-            className={`px-8 py-3 rounded-xl text-white text-base font-bold flex items-center gap-2 transition ${valid && !saving ? "bg-[#45a578] hover:bg-[#3a9068]" : "bg-gray-300 cursor-not-allowed"}`}>
+          <button onClick={() => form.image && onSave(form)} disabled={!form.image || saving}
+            className={`px-8 py-3 rounded-xl text-white text-base font-bold flex items-center gap-2 transition ${form.image && !saving ? "bg-[#45a578] hover:bg-[#3a9068]" : "bg-gray-300 cursor-not-allowed"}`}>
             <MdSave /> {saving ? "Saving..." : "Save"}
           </button>
         </div>
@@ -154,13 +141,7 @@ const AdminSelectAvatar = () => {
           {avatars.map(av => (
             <div key={av._id} className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition">
               <img src={av.image} className="w-full h-44 object-cover rounded-xl mb-3" alt={av.name} />
-              <p className="text-lg font-bold text-center text-gray-800">{av.name}</p>
-              <div className="flex justify-center mt-2">
-                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${av.isActive ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-400"}`}>
-                  {av.isActive ? "Active" : "Inactive"}
-                </span>
-              </div>
-              <div className="flex gap-2 mt-3">
+              <div className="flex gap-2">
                 <button onClick={() => { setEditAvatar(av); setModalOpen(true); }}
                   className="flex-1 flex items-center justify-center gap-1 bg-amber-400 hover:bg-amber-500 text-white py-2 rounded-lg text-sm font-semibold transition">
                   <MdEdit /> Edit

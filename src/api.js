@@ -183,4 +183,12 @@ export const api = {
     update: (id, b) => put(`/subscription/faqs/${id}`, b),
     remove: (id) => del(`/subscription/faqs/${id}`),
   },
+
+  // ── Faith Background ─────────────────────────────────────────────────────────
+  faithBackground: {
+    getAll: ()       => get("/faith-background"),
+    create: (body)   => post("/faith-background", body),
+    update: (id, b)  => put(`/faith-background/${id}`, b),
+    remove: (id)     => del(`/faith-background/${id}`),
+  },
 };
